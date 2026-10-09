@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2364df">
+  <meta name="description" content="Buy and sell locally with real people. Browse real listings, save finds, and message sellers directly.">
+  <title>Bazaar · Buy and sell nearby</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="config.js"></script>
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#browse" aria-label="Bazaar home" data-action="view-browse">
+      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M5.5 12.2 16 4l10.5 8.2v13.3H5.5z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><path d="M11.2 25.5v-8.3h9.6v8.3M4.8 12.8l11.2 4.4 11.2-4.4" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/></svg></span>
+      <span class="brand-word">bazaar<span class="brand-dot">.</span></span>
+    </a>
+    <div class="global-search">
+      <span class="icon icon-search" aria-hidden="true"></span>
+      <input id="searchInput" type="search" aria-label="Search listings" placeholder="Search cars, phones, furniture…" autocomplete="off">
+      <kbd>↵</kbd>
+    </div>
+    <label class="location-field"><span class="icon icon-pin" aria-hidden="true"></span><input id="locationInput" aria-label="Filter by city or area" placeholder="City or area" autocomplete="address-level2"></label>
+    <div class="top-actions">
+      <button class="icon-button theme-toggle" id="themeButton" aria-label="Toggle dark mode" title="Toggle dark mode"><span class="icon icon-moon"></span></button>
+      <button class="button button-primary top-sell" data-action="sell"><span class="plus">+</span> Sell an item</button>
+      <button class="account-button" id="accountButton" data-action="auth">Sign in</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-label">YOUR MARKETPLACE</div>
+      <nav class="main-nav" aria-label="Marketplace navigation">
+        <button class="nav-item active" data-action="view-browse"><span class="nav-icon icon-store"></span><span>Browse</span></button>
+        <button class="nav-item" data-action="view-saved"><span class="nav-icon icon-heart"></span><span>Saved items</span><span class="nav-count" id="savedCount">0</span></button>
+        <button class="nav-item" data-action="view-inbox"><span class="nav-icon icon-message"></span><span>Messages</span><span class="nav-count" id="messageCount"></span></button>
+        <button class="nav-item" data-action="view-selling"><span class="nav-icon icon-tag"></span><span>Your listings</span></button>
+      </nav>
+      <div class="sidebar-divider"></div>
+      <div class="sidebar-label">CATEGORIES</div>
+      <nav class="category-nav" id="categoryNav" aria-label="Listing categories"></nav>
+      <div class="sidebar-bottom">
+        <div class="trust-note"><span class="trust-symbol">✓</span><div><strong>Local by design</strong><p>Talk directly. Ask questions. Make your own safe meetup plan.</p></div></div>
+        <button class="subtle-link" data-action="profile">Your profile <span class="icon icon-chevron"></span></button>
+        <p class="tiny-legal">Bazaar is an independent community marketplace. Always use good judgment when meeting buyers or sellers.</p>
+      </div>
+    </aside>
+
+    <main class="main-content" id="mainContent">
+      <section class="welcome-row">
+        <div><div class="eyebrow"><span class="live-dot"></span> YOUR LOCAL MARKET</div><h1 id="pageTitle">Find something good.</h1><p id="pageSubtitle">Useful finds from people around you.</p></div>
+        <button class="button button-outline desktop-sell" data-action="sell"><span class="plus">+</span> Sell an item</button>
+      </section>
+
+      <section class="intro-strip" id="introStrip">
+        <div class="intro-copy"><span class="intro-tag">BUY NEARBY. SELL SIMPLY.</span><h2>Good things have a<br><em>second life.</em></h2><p>Discover pre-loved finds, support people nearby, and give great things another home.</p><button class="button button-light" data-action="sell">List your first item <span class="icon icon-arrow"></span></button></div>
+        <div class="intro-art" aria-hidden="true"><div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div><div class="art-box box-one"><span>↗</span></div><div class="art-box box-two"><span>✳</span></div><div class="art-box box-three"><span>⌂</span></div><div class="art-sun"></div><div class="art-note">LESS WASTE<br>MORE VALUE</div></div>
+      </section>
+
+      <section class="section-heading" id="itemsHeading"><div><h2 id="resultsTitle">Explore listings</h2><p id="resultsMeta">Fresh finds from the community</p></div><label class="sort-control"><span>Sort by</span><select id="sortSelect" aria-label="Sort listings"><option value="newest">Newest first</option><option value="price_asc">Price: low to high</option><option value="price_desc">Price: high to low</option></select></label></section>
+      <section class="filter-row" id="filterRow" aria-label="Listing filters">
+        <div class="quick-cats" id="quickCategories"></div>
+        <div class="filter-tools"><label class="filter-select"><span class="icon icon-filter"></span><select id="conditionSelect" aria-label="Filter by condition"><option value="">Any condition</option><option>New</option><option>Like new</option><option>Good</option><option>Fair</option><option>For parts</option></select></label><button class="filter-price-button" id="priceButton"><span class="icon icon-sliders"></span> Price <span class="icon icon-chevron"></span></button><button class="clear-filters" id="clearFilters">Clear</button></div>
+        <div class="price-popover" id="pricePopover" hidden><label>Minimum price <input id="minPrice" type="number" min="0" placeholder="₹ 0"></label><label>Maximum price <input id="maxPrice" type="number" min="0" placeholder="No limit"></label><button class="button button-primary button-small" id="applyPrice">Apply price</button></div>
+      </section>
+
+      <section class="listing-grid" id="listingGrid" aria-live="polite"></section>
+      <div class="load-more-wrap" id="loadMoreWrap" hidden><button class="button button-outline" id="loadMoreButton">Load more</button></div>
+      <footer class="page-footer"><span>Made for the things we pass along.</span><span>Buy nearby · Sell honestly · Meet safely</span></footer>
+    </main>
+  </div>
+
+  <nav class="mobile-nav" aria-label="Mobile navigation"><button data-action="view-browse" class="active"><span class="icon icon-store"></span><span>Browse</span></button><button data-action="view-saved"><span class="icon icon-heart"></span><span>Saved</span></button><button data-action="view-inbox"><span class="icon icon-message"></span><span>Messages</span></button><button data-action="sell"><span class="icon icon-plus-circle"></span><span>Sell</span></button></nav>
+
+  <div class="toast-region" id="toastRegion" role="status" aria-live="polite"></div>
+  <div class="overlay" id="overlay" aria-hidden="true"><section class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"></section></div>
+  <div class="setup-notice" id="setupNotice" hidden></div>
+</body>
+</html>
